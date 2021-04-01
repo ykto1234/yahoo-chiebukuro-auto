@@ -213,10 +213,10 @@ def expexpiration_date_check():
 if __name__ == "__main__":
     logger.info('プログラム起動開始')
 
-    # 有効期限チェック
-    if not (expexpiration_date_check()):
-        logger.info("有効期限切れため、プログラム起動終了")
-        sys.exit(0)
+    # # 有効期限チェック
+    # if not (expexpiration_date_check()):
+    #     logger.info("有効期限切れため、プログラム起動終了")
+    #     sys.exit(0)
 
     args = sys.argv
     if len(args) > 1:
