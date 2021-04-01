@@ -12,6 +12,8 @@ import scraip_yahoo
 
 import mylogger
 import datetime
+from time import sleep
+import random
 
 # ログの定義
 logger = mylogger.setup_logger(__name__)
@@ -181,10 +183,14 @@ def yahoo_chiebukuro_worker():
                 spread_sheet.update_gspread_sheet(worksheet=output_worskheet, cell_row=ROW_NUM, cell_col=RANKING_COL, update_value='１位')
                 spread_sheet.update_gspread_sheet(worksheet=output_worskheet, cell_row=ROW_NUM + 1, cell_col=RANKING_COL, update_value='２位')
                 spread_sheet.update_gspread_sheet(worksheet=output_worskheet, cell_row=ROW_NUM + 2, cell_col=RANKING_COL, update_value='３位')
+                wait_randam_sec(0.5, 1.5)
                 spread_sheet.update_gspread_sheet(worksheet=output_worskheet, cell_row=ROW_NUM, cell_col=OUT_DATA_COL, update_value=_item.search_url_no1)
                 spread_sheet.update_gspread_sheet(worksheet=output_worskheet, cell_row=ROW_NUM + 1, cell_col=OUT_DATA_COL, update_value=_item.search_url_no2)
                 spread_sheet.update_gspread_sheet(worksheet=output_worskheet, cell_row=ROW_NUM + 2, cell_col=OUT_DATA_COL, update_value=_item.search_url_no3)
                 reload_flg = True
+
+            # APIの制限に引っかからないために、Wait
+            wait_randam_sec(5.0, 10.0)
 
         logger.debug('スプレッドシートに検索結果書き込み完了')
 
@@ -196,6 +202,10 @@ def yahoo_chiebukuro_worker():
         RUNNING_FLG = False
         if driver:
             driver.quit()
+
+def wait_randam_sec(min_sec, max_sec):
+    sec = random.uniform(min_sec, max_sec)
+    time.sleep(sec)
 
 
 def expexpiration_date_check():

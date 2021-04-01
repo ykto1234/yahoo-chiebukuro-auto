@@ -13,6 +13,7 @@ from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.support.select import Select
 from selenium.webdriver.support.ui import WebDriverWait
 
+import main_form
 from search_item import SearchItem
 import mylogger
 
@@ -42,6 +43,8 @@ def create_driver():
 
 def get_chiebukuro_url(driver, url, item: SearchItem):
 
+    # 人間に近くするために、Wait
+    main_form.wait_randam_sec(5.0, 8.0)
     driver.get(url)
 
     # 検索
@@ -49,7 +52,13 @@ def get_chiebukuro_url(driver, url, item: SearchItem):
     WebDriverWait(driver, 30).until(
         EC.presence_of_element_located((By.CSS_SELECTOR, input_sel))
     )
+    # 人間に近くするために、Wait
+    main_form.wait_randam_sec(1.2, 2.5)
+
     driver.find_elements_by_css_selector(input_sel)[0].send_keys(item.search_keyword)
+
+    # 人間に近くするために、Wait
+    main_form.wait_randam_sec(0.5, 3.0)
     driver.find_elements_by_css_selector(input_sel)[0].send_keys(Keys.ENTER)
 
     WebDriverWait(driver, 30).until(
